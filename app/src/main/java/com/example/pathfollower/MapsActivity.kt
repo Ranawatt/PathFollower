@@ -10,10 +10,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import java.util.*
 
@@ -221,7 +218,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
      * @param map The GoogleMap to set the listener to.
      */
     private fun setInfoWindowClickToPanorama(map: GoogleMap) {
-        map.setOnInfoWindowClickListener { }
+        map.setOnInfoWindowClickListener {
+            // Check the tag
+            if (it.tag === "poi") {
+
+                // Set the position to the position of the marker
+                val options = StreetViewPanoramaOptions().position(
+                    it.position
+                )
+                val streetViewFragment =
+                    SupportStreetViewPanoramaFragment
+                        .newInstance(options)
+
+                // Replace the fragment and add it to the backstack
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.map,
+                        streetViewFragment
+                    )
+                    .addToBackStack(null).commit()
+            }
+        }
     }
 }
 
