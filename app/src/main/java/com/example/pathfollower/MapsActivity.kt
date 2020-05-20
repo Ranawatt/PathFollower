@@ -10,6 +10,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.*
 import java.util.*
@@ -20,21 +22,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
     private val TAG = MapsActivity::class.java.simpleName
     private val REQUEST_LOCATION_PERMISSION = 1
 
-//    private lateinit var presenter: MapsPresenter
-//    private lateinit var googleMap: GoogleMap
-//    private var fusedLocationProviderClient: FusedLocationProviderClient? = null
-//    private lateinit var locationCallback: LocationCallback
-//    private var currentLatLng: LatLng? = null
-//    private var pickUpLatLng: LatLng? = null
-//    private var dropLatLng: LatLng? = null
-//    private val nearbyCabMarkerList = arrayListOf<Marker>()
-//    private var destinationMarker: Marker? = null
-//    private var originMarker: Marker? = null
-//    private var greyPolyLine: Polyline? = null
-//    private var blackPolyline: Polyline? = null
-//    private var previousLatLngFromServer: LatLng? = null
-//    private var currentLatLngFromServer: LatLng? = null
-//    private var movingCabMarker: Marker? = null
+    private lateinit var presenter: MapsPresenter
+    private lateinit var googleMap: GoogleMap
+    private var fusedLocationProviderClient: FusedLocationProviderClient? = null
+    private lateinit var locationCallback: LocationCallback
+    private var currentLatLng: LatLng? = null
+    private var pickUpLatLng: LatLng? = null
+    private var dropLatLng: LatLng? = null
+    private val nearbyCabMarkerList = arrayListOf<Marker>()
+    private var destinationMarker: Marker? = null
+    private var originMarker: Marker? = null
+    private var greyPolyLine: Polyline? = null
+    private var blackPolyline: Polyline? = null
+    private var previousLatLngFromServer: LatLng? = null
+    private var currentLatLngFromServer: LatLng? = null
+    private var movingCabMarker: Marker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
