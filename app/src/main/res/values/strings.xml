@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">PathFollower</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="normal_map">Normal Map</string>
+    <string name="hybrid_map">Hybrid Map</string>
+    <string name="satellite_map">Satellite Map</string>
+    <string name="terrain_map">Terrain Map</string>
+    <string name="lat_long_snippet">Lat: %1$.5f, Long: %2$.5f</string>
+    <string name="dropped_pin">Dropped Pin</string>
+
+    <string name="search_place">Searching…</string>
+    <string name="poi">poi</string>
+
+
+    <string name="need_location">Enable GPS SERVICE</string>
+    <string name="location_content">This app wants to change your device settings use GPS,Wi-Fi and cell networks for
+        your location
+    </string>
+    <string name="frisbee_needs_your_location_in_order_to_find_your_captain_according_to_current_location">Frisbee needs
+        your location in order to find nearby drivers and your current location .
+    </string>
+    <string name="no_car">No Car</string>
+
+</resources>
