@@ -11,7 +11,6 @@ import kotlin.math.atan
 object MapUtils {
 
     private const val TAG = "MapUtils"
-
     fun getCarBitmap(context: Context): Bitmap {
         val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.ic_car)
         return Bitmap.createScaledBitmap(bitmap, 50, 100, false)

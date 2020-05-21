@@ -1,2 +1,3 @@
 include ':app', ':pathfollower'
 rootProject.name='PathFollower'
+include ':simulator'
