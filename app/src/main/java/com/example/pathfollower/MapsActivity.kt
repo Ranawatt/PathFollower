@@ -17,12 +17,12 @@ import com.google.android.gms.maps.model.*
 import java.util.*
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanoramaReadyCallback{
     private lateinit var map: GoogleMap
     private val TAG = MapsActivity::class.java.simpleName
     private val REQUEST_LOCATION_PERMISSION = 1
 
-    private lateinit var presenter: MapsPresenter
+//    private lateinit var presenter: MapsPresenter
     private lateinit var googleMap: GoogleMap
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private lateinit var locationCallback: LocationCallback
@@ -138,7 +138,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
                     .position(latLng)
                     .title(getString(R.string.dropped_pin))
                     .snippet(snippet)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
             )
         }
     }
@@ -239,6 +239,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback{
                     )
                     .addToBackStack(null).commit()
             }
+        }
+    }
+
+    override fun onStreetViewPanoramaReady(p0: StreetViewPanorama?) {
+        StreetViewPanorama.OnStreetViewPanoramaChangeListener {
+            Log.e(TAG, "Street View Panorama Change Listener");
         }
     }
 }
