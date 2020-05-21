@@ -22,7 +22,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
     private val TAG = MapsActivity::class.java.simpleName
     private val REQUEST_LOCATION_PERMISSION = 1
 
-//    private lateinit var presenter: MapsPresenter
+    private lateinit var presenter: MapsPresenter
     private lateinit var googleMap: GoogleMap
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private lateinit var locationCallback: LocationCallback
@@ -46,15 +46,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-//        presenter = MapsPresenter(NetworkService())
-//        presenter.onAttach(this)
-//        setUpClickListener()
+        presenter = MapsPresenter(NetworkService())
+        presenter.onAttach(this)
+        setUpClickListener()
     }
-
-//    private fun setUpClickListener() {
-//        TODO("Not yet implemented")
-//    }
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -66,7 +61,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
      */
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
-
         //These coordinates represent the lattitude and longitude of the Googleplex.
         val latitude = 37.422160
         val longitude = -122.084270
@@ -86,12 +80,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
         setPoiClick(map)
         setMapStyle(map)
         enableMyLocation()
-        // Enable going into StreetView by clicking on an InfoWindow from a
-        // point of interest.
+        // Enable going into StreetView by clicking on an InfoWindow from a point of interest.
         setInfoWindowClickToPanorama(map);
-
     }
-
     // Initializes contents of Activity's standard options menu. Only called the first time options
     // menu is displayed.
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -99,7 +90,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
         inflater.inflate(R.menu.map_options, menu)
         return true
     }
-
     // Called whenever an item in your options menu is selected.
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         // Change the map type based on the user's selection.
@@ -121,7 +111,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
         }
         else -> super.onOptionsItemSelected(item)
     }
-
     // Called when user makes a long press gesture on the map.
     private fun setMapLongClick(map: GoogleMap) {
         map.setOnMapLongClickListener { latLng ->
@@ -129,12 +118,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
             val snippet = java.lang.String.format(
                 Locale.getDefault(),
                 "Lat: %1$.5f, Long: %2$.5f",
-                latLng.latitude,
-                latLng.longitude
+                latLng.latitude, latLng.longitude
             )
-           
-            map.addMarker(
-                MarkerOptions()
+            map.addMarker(MarkerOptions()
                     .position(latLng)
                     .title(getString(R.string.dropped_pin))
                     .snippet(snippet)
@@ -142,12 +128,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
             )
         }
     }
-
     // Places a marker on the map and displays an info window that contains POI name.
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
-            val poiMarker = map.addMarker(
-                MarkerOptions()
+            val poiMarker = map.addMarker(MarkerOptions()
                     .position(poi.latLng)
                     .title(poi.name)
             )
@@ -162,12 +146,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
             // Customize the styling of the base map using a JSON object defined
             // in a raw resource file.
             val success = map.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(
-                    this,
-                    R.raw.map_style
-                )
+                MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style)
             )
-
             if (!success) {
                 Log.e(TAG, "Style parsing failed.")
             }
@@ -175,35 +155,27 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
             Log.e(TAG, "Can't find style. Error: ", e)
         }
     }
-
     // Checks that users have given permission
     private fun isPermissionGranted() : Boolean {
-        return ContextCompat.checkSelfPermission(
-            this,
+        return ContextCompat.checkSelfPermission(this,
             Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
     }
-
     // Checks if users have given their location and sets location enabled if so.
     private fun enableMyLocation() {
         if (isPermissionGranted()) {
             map.isMyLocationEnabled = true
         }
         else {
-            ActivityCompat.requestPermissions(
-                this,
+            ActivityCompat.requestPermissions(this,
                 arrayOf<String>(Manifest.permission.ACCESS_FINE_LOCATION),
                 REQUEST_LOCATION_PERMISSION
             )
         }
     }
-
     // Callback for the result from requesting permissions.
-    // This method is invoked for every call on requestPermissions(android.app.Activity, String[],
-    // int).
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray) {
+    // This method is invoked for every call on requestPermissions(android.app.Activity, String[], int).
+    override fun onRequestPermissionsResult(requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray) {
         // Check if location permissions are granted and if so enable the
         // location data layer.
         if (requestCode == REQUEST_LOCATION_PERMISSION) {
@@ -212,18 +184,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
             }
         }
     }
-
     /**
-     * Starts a Street View panorama when an info window containing the poi tag
-     * is clicked.
-     *
+     * Starts a Street View panorama when an info window containing the poi tag is clicked.
      * @param map The GoogleMap to set the listener to.
      */
     private fun setInfoWindowClickToPanorama(map: GoogleMap) {
         map.setOnInfoWindowClickListener {
             // Check the tag
             if (it.tag === "poi") {
-
                 // Set the position to the position of the marker
                 val options = StreetViewPanoramaOptions().position(
                     it.position
@@ -231,12 +199,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
                 val streetViewFragment =
                     SupportStreetViewPanoramaFragment
                         .newInstance(options)
-
                 // Replace the fragment and add it to the backstack
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.map,
-                        streetViewFragment
-                    )
+                    .replace(R.id.map, streetViewFragment)
                     .addToBackStack(null).commit()
             }
         }
@@ -246,6 +211,34 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
         StreetViewPanorama.OnStreetViewPanoramaChangeListener {
             Log.e(TAG, "Street View Panorama Change Listener");
         }
+    }
+
+    private fun setUpClickListener() {
+        pickUpTextView.setOnClickListener {
+            launchLocationAutoCompleteActivity(PICKUP_REQUEST_CODE)
+        }
+        dropTextView.setOnClickListener {
+            launchLocationAutoCompleteActivity(DROP_REQUEST_CODE)
+        }
+        requestCabButton.setOnClickListener {
+            statusTextView.visibility = View.VISIBLE
+            statusTextView.text = getString(R.string.requesting_your_cab)
+            requestCabButton.isEnabled = false
+            pickUpTextView.isEnabled = false
+            dropTextView.isEnabled = false
+            presenter.requestCab(pickUpLatLng!!, dropLatLng!!)
+        }
+        nextRideButton.setOnClickListener {
+            reset()
+        }
+    }
+
+    private fun launchLocationAutoCompleteActivity(requestCode: Int) {
+        val fields: List<Place.Field> =
+            listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+            .build(this)
+        startActivityForResult(intent, requestCode)
     }
 }
 
