@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -28,7 +31,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.core:core-ktx:1.2.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-
+//    implementation project(':simulator')
+    // Places Library (required for search places)
+    implementation 'com.google.android.libraries.places:places:2.2.0'
     // Material dialog dependency
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     // ViewModel dependencies
