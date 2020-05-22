@@ -113,26 +113,26 @@ class MapsActivity : AppCompatActivity(), MapsView, OnMapReadyCallback, OnStreet
         return true
     }
     // Called whenever an item in your options menu is selected.
-//    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-//        // Change the map type based on the user's selection.
-//        R.id.normal_map -> {
-//            map.mapType = GoogleMap.MAP_TYPE_NORMAL
-//            true
-//        }
-//        R.id.hybrid_map -> {
-//            map.mapType = GoogleMap.MAP_TYPE_HYBRID
-//            true
-//        }
-//        R.id.satellite_map -> {
-//            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
-//            true
-//        }
-//        R.id.terrain_map -> {
-//            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-//            true
-//        }
-//        else -> super.onOptionsItemSelected(item)
-//    }
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        // Change the map type based on the user's selection.
+        R.id.normal_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_NORMAL
+            true
+        }
+        R.id.hybrid_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_HYBRID
+            true
+        }
+        R.id.satellite_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
+            true
+        }
+        R.id.terrain_map -> {
+            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
     // Called when user makes a long press gesture on the map.
 //    private fun setMapLongClick(map: GoogleMap) {
 //        map.setOnMapLongClickListener { latLng ->
