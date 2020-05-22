@@ -6,6 +6,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.maps.GeoApiContext
 
 class PathFollower : Application() {
+
     override fun onCreate() {
         super.onCreate()
         Places.initialize(applicationContext, getString(R.string.google_maps_key));

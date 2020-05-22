@@ -1,10 +1,8 @@
 package com.example.pathfollower
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Looper
@@ -14,11 +12,12 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.pathfollower.network.NetworkService
 import com.example.pathfollower.utils.AnimationUtils
 import com.example.pathfollower.utils.MapUtils
+import com.example.pathfollower.utils.PermissionUtils
+import com.example.pathfollower.utils.ViewUtils
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -30,10 +29,16 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import kotlinx.android.synthetic.main.activity_maps.*
-import java.util.*
 
 
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanoramaReadyCallback{
+class MapsActivity : AppCompatActivity(), MapsView, OnMapReadyCallback, OnStreetViewPanoramaReadyCallback{
+    companion object {
+        private const val TAG = "MapsActivity"
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 999
+        private const val PICKUP_REQUEST_CODE = 1
+        private const val DROP_REQUEST_CODE = 2
+    }
+
     private lateinit var map: GoogleMap
     private val TAG = MapsActivity::class.java.simpleName
     private val REQUEST_LOCATION_PERMISSION = 1
@@ -57,6 +62,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+        ViewUtils.enableTransparentStatusBar(window)
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -107,26 +113,26 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
         return true
     }
     // Called whenever an item in your options menu is selected.
-    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        // Change the map type based on the user's selection.
-        R.id.normal_map -> {
-            map.mapType = GoogleMap.MAP_TYPE_NORMAL
-            true
-        }
-        R.id.hybrid_map -> {
-            map.mapType = GoogleMap.MAP_TYPE_HYBRID
-            true
-        }
-        R.id.satellite_map -> {
-            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
-            true
-        }
-        R.id.terrain_map -> {
-            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
+//    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+//        // Change the map type based on the user's selection.
+//        R.id.normal_map -> {
+//            map.mapType = GoogleMap.MAP_TYPE_NORMAL
+//            true
+//        }
+//        R.id.hybrid_map -> {
+//            map.mapType = GoogleMap.MAP_TYPE_HYBRID
+//            true
+//        }
+//        R.id.satellite_map -> {
+//            map.mapType = GoogleMap.MAP_TYPE_SATELLITE
+//            true
+//        }
+//        R.id.terrain_map -> {
+//            map.mapType = GoogleMap.MAP_TYPE_TERRAIN
+//            true
+//        }
+//        else -> super.onOptionsItemSelected(item)
+//    }
     // Called when user makes a long press gesture on the map.
 //    private fun setMapLongClick(map: GoogleMap) {
 //        map.setOnMapLongClickListener { latLng ->
@@ -249,8 +255,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
     }
 
     private fun launchLocationAutoCompleteActivity(requestCode: Int) {
-        val fields: List<Place.Field> =
-            listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+        val fields: List<Place.Field> = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
             .build(this)
         startActivityForResult(intent, requestCode)
@@ -311,8 +316,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
             }
         }
         fusedLocationProviderClient?.requestLocationUpdates(
-            locationRequest,
-            locationCallback,
+            locationRequest, locationCallback,
             Looper.myLooper()
         )
     }
@@ -325,6 +329,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
     }
 
     private fun reset() {
+
         statusTextView.visibility = View.GONE
         nextRideButton.visibility = View.GONE
         nearbyCabMarkerList.forEach { it.remove() }
@@ -371,8 +376,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
                 }
                 else -> {
                     PermissionUtils.requestAccessFineLocationPermission(
-                        this,
-                        LOCATION_PERMISSION_REQUEST_CODE
+                        this, LOCATION_PERMISSION_REQUEST_CODE
                     )
                 }
             }
@@ -401,10 +405,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, OnStreetViewPanora
                     }
                 } else {
                     Toast.makeText(
-                        this,
-                        getString(R.string.location_permission_not_granted),
-                        Toast.LENGTH_LONG
-                    ).show()
+                        this, getString(R.string.location_permission_not_granted),
+                        Toast.LENGTH_LONG).show()
                 }
             }
         }

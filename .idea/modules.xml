@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/PathFollower.iml" filepath="$PROJECT_DIR$/PathFollower.iml" group="PathFollower" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="PathFollower/app" />
       <module fileurl="file://$PROJECT_DIR$/pathfollower/pathfollower.iml" filepath="$PROJECT_DIR$/pathfollower/pathfollower.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simulator/simulator.iml" filepath="$PROJECT_DIR$/simulator/simulator.iml" group="PathFollower/simulator" />
     </modules>
   </component>
 </project>

@@ -3,11 +3,11 @@ package com.example.pathfollower.simulator
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.google.android.gms.maps.model.LatLng
 import com.google.maps.DirectionsApiRequest
 import com.google.maps.GeoApiContext
 import com.google.maps.PendingResult
 import com.google.maps.model.DirectionsResult
+import com.google.maps.model.LatLng
 import com.google.maps.model.TravelMode
 import org.json.JSONArray
 import org.json.JSONObject
@@ -57,8 +57,8 @@ object Simulator {
         val jsonArray = JSONArray()
         for (location in nearbyCabLocations) {
             val jsonObjectLatLng = JSONObject()
-            jsonObjectLatLng.put("lat", location.latitude)
-            jsonObjectLatLng.put("lng", location.longitude)
+            jsonObjectLatLng.put("lat", location.lat)
+            jsonObjectLatLng.put("lng", location.lng)
             jsonArray.put(jsonObjectLatLng)
         }
         jsonObjectToPush.put("locations", jsonArray)
@@ -87,8 +87,8 @@ object Simulator {
         if (randomOperatorForLng == 1) {
             randomDeltaForLng *= -1
         }
-        val latFakeNearby = (pickUpLocation.latitude + randomDeltaForLat).coerceAtMost(90.00)
-        val lngFakeNearby = (pickUpLocation.longitude + randomDeltaForLng).coerceAtMost(180.00)
+        val latFakeNearby = (pickUpLocation.lat + randomDeltaForLat).coerceAtMost(90.00)
+        val lngFakeNearby = (pickUpLocation.lng + randomDeltaForLng).coerceAtMost(180.00)
 
         val bookedCabCurrentLocation = LatLng(latFakeNearby, lngFakeNearby)
         val directionsApiRequest = DirectionsApiRequest(geoApiContext)
@@ -124,8 +124,8 @@ object Simulator {
                     val jsonArray = JSONArray()
                     for (pickUp in pickUpPath) {
                         val jsonObjectLatLng = JSONObject()
-                        jsonObjectLatLng.put("lat", pickUp.latitude)
-                        jsonObjectLatLng.put("lng", pickUp.longitude)
+                        jsonObjectLatLng.put("lat", pickUp.lat)
+                        jsonObjectLatLng.put("lng", pickUp.lng)
                         jsonArray.put(jsonObjectLatLng)
                     }
                     jsonObject.put("path", jsonArray)
@@ -161,8 +161,8 @@ object Simulator {
             override fun run() {
                 val jsonObject = JSONObject()
                 jsonObject.put("type", "location")
-                jsonObject.put("lat", pickUpPath[index].latitude)
-                jsonObject.put("lng", pickUpPath[index].longitude)
+                jsonObject.put("lat", pickUpPath[index].lat)
+                jsonObject.put("lng", pickUpPath[index].lng)
                 mainThread.post {
                     webSocketListener.onMessage(jsonObject.toString())
                 }
@@ -261,8 +261,8 @@ object Simulator {
                     val jsonArray = JSONArray()
                     for (trip in tripPath) {
                         val jsonObjectLatLng = JSONObject()
-                        jsonObjectLatLng.put("lat", trip.latitude)
-                        jsonObjectLatLng.put("lng", trip.longitude)
+                        jsonObjectLatLng.put("lat", trip.lat)
+                        jsonObjectLatLng.put("lng", trip.lng)
                         jsonArray.put(jsonObjectLatLng)
                     }
                     jsonObject.put("path", jsonArray)
@@ -273,8 +273,8 @@ object Simulator {
 
                 val jsonObject = JSONObject()
                 jsonObject.put("type", "location")
-                jsonObject.put("lat", tripPath[index].latitude)
-                jsonObject.put("lng", tripPath[index].longitude)
+                jsonObject.put("lat", tripPath[index].lat)
+                jsonObject.put("lng", tripPath[index].lng)
                 mainThread.post {
                     webSocketListener.onMessage(jsonObject.toString())
                 }

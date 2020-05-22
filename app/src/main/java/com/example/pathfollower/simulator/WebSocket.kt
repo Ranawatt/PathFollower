@@ -1,6 +1,6 @@
 package com.example.pathfollower.simulator
 
-import com.google.android.gms.maps.model.LatLng
+import com.google.maps.model.LatLng
 import org.json.JSONObject
 
 class WebSocket(private var webSocketListener: WebSocketListener) {
