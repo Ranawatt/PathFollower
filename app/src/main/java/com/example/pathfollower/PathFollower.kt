@@ -1,7 +1,9 @@
 package com.example.pathfollower
 
 import android.app.Application
+import com.example.pathfollower.simulator.Simulator
 import com.google.android.libraries.places.api.Places
+import com.google.maps.GeoApiContext
 
 class PathFollower : Application() {
     override fun onCreate() {
