@@ -20,10 +20,8 @@ class WebSocket(private var webSocketListener: WebSocketListener) {
                 )
             }
             "requestCab" -> {
-                val pickUpLatLng =
-                    LatLng(jsonObject.getDouble("pickUpLat"), jsonObject.getDouble("pickUpLng"))
-                val dropLatLng =
-                    LatLng(jsonObject.getDouble("dropLat"), jsonObject.getDouble("dropLng"))
+                val pickUpLatLng = LatLng(jsonObject.getDouble("pickUpLat"), jsonObject.getDouble("pickUpLng"))
+                val dropLatLng = LatLng(jsonObject.getDouble("dropLat"), jsonObject.getDouble("dropLng"))
                 Simulator.requestCab(
                     pickUpLatLng,
                     dropLatLng,

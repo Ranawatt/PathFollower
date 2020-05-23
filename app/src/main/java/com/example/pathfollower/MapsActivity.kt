@@ -313,7 +313,7 @@ class MapsActivity : AppCompatActivity(), MapsView, OnMapReadyCallback, OnStreet
                 }
                 // Few more things we can do here:
                 // For example: Update the location of user on server
-            }
+0            }
         }
         fusedLocationProviderClient?.requestLocationUpdates(
             locationRequest, locationCallback,
