@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PathFollower.iml" filepath="$PROJECT_DIR$/PathFollower.iml" group="PathFollower" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="PathFollower/app" />
+      <module fileurl="file://$PROJECT_DIR$/PathFollower.iml" filepath="$PROJECT_DIR$/PathFollower.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/PathFollower.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/PathFollower.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/pathfollower/pathfollower.iml" filepath="$PROJECT_DIR$/pathfollower/pathfollower.iml" />
     </modules>
   </component>
